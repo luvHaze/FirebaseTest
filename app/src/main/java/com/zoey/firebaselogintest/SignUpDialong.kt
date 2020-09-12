@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import com.google.android.gms.common.api.Result
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -16,12 +17,15 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.zoey.firebaselogintest.Constants.TAG
 import kotlinx.android.synthetic.main.dialog_signup.*
+import kotlinx.coroutines.*
+import kotlinx.coroutines.tasks.await
+
 
 class SignUpDialong(context: Context) : Dialog(context) {
 
     private var mAuth = FirebaseAuth.getInstance()
-    private var owner: Activity? = null
-
+    private var job = Job()
+    private var uiContext = CoroutineScope(Dispatchers.Main + job)
     init {
         // 액티비티의 컨택스트를 가져오고 나서 setOwnerAcitivty 주인이 누구인지 설정해줘야
         // ownerActivity를 사용할 수 있다 (안하면 호출하면 null값 계속 출력함)
@@ -35,7 +39,7 @@ class SignUpDialong(context: Context) : Dialog(context) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_signup)
 
-        Log.d(TAG, "Dialog - onCrate()" )
+        Log.d(TAG, "Dialog - onCrate()")
         dialog_signup_button.setOnClickListener {
             val id = dialog_id_inputtext.text.toString()
             val pw = dialog_pw_inputtext.text.toString()
@@ -60,6 +64,5 @@ class SignUpDialong(context: Context) : Dialog(context) {
 
             }
     }
-
 
 }

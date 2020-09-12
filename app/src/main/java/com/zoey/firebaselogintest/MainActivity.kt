@@ -15,6 +15,8 @@ import com.google.firebase.auth.FirebaseUser
 import com.zoey.firebaselogintest.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_signup.*
+import kotlinx.coroutines.*
+import kotlinx.coroutines.tasks.await
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -50,6 +52,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 val id = input_id_inputtext.text.toString()
                 val pw = input_pw_inputtext.text.toString()
                 signIn(id, pw)
+
             }
         }
     }
