@@ -2,9 +2,11 @@ package com.zoey.firebaselogintest
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
-class MainRecyclerViewAdapter : RecyclerView.Adapter<MainRecyclerViewHolder>() {
+class MainRecyclerViewAdapter : ListAdapter<Article,MainRecyclerViewHolder>(diffCallback) {
 
     private var articles: List<Article> = listOf()
 
@@ -15,14 +17,25 @@ class MainRecyclerViewAdapter : RecyclerView.Adapter<MainRecyclerViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return articles.size
+        return currentList.size
     }
 
     override fun onBindViewHolder(holder: MainRecyclerViewHolder, position: Int) {
-        holder.bindView(articles[position])
+        holder.bindView(currentList[position])
     }
 
     fun getArticle(articles: List<Article>) {
         this.articles = articles
+    }
+
+    object diffCallback : DiffUtil.ItemCallback<Article>() {
+        override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
+            return oldItem.title == newItem.title
+        }
+
+        override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
+            return oldItem == newItem
+        }
+
     }
 }
